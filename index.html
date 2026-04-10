@@ -145,9 +145,11 @@ const SB='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 let lang='en',isAdmin=false,posts=[],sessionUser=null;
 
-// Session
+// Session — read from cross-domain cookie (.svita.ai) or localStorage fallback
 try{
-  const s=JSON.parse(localStorage.getItem('svita_session'));
+  const ck=document.cookie.match(/svita_session=([^;]+)/);
+  const raw=ck?decodeURIComponent(ck[1]):localStorage.getItem('svita_session');
+  const s=raw?JSON.parse(raw):null;
   if(s){sessionUser=s;if(s.isAdmin)isAdmin=true}
 }catch(e){}
 
