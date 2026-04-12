@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="en">Claude Opus 4.6 — Fundamental Principles</title>
+    <title data-lang="ru" style="display:none;">Claude Opus 4.6 — Фундаментальные принципы</title>
+    <style>
+        :root {
+            --bg-color: #0a0e14;
+            --card-bg: #161b22;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #bc8cff;
+            --accent-orange: #f0883e;
+            --accent-red: #f85149;
+            --text-main: #adbac7;
+            --text-bright: #ffffff;
+            --border: #30363d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 90vw;
+            height: 80vh;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .slides-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            display: none;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-out forwards;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+
+        .slide.active { display: flex; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { color: var(--accent-blue); font-size: 2.5rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        h2 { color: var(--accent-green); margin-bottom: 15px; border-left: 4px solid var(--accent-green); padding-left: 15px; }
+        h3 { color: var(--text-bright); margin-bottom: 10px; }
+        p { line-height: 1.7; margin-bottom: 15px; font-size: 1.05rem; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .skill-card:hover { border-color: var(--accent-blue); transform: translateY(-5px); }
+        .skill-card h3 { font-size: 1rem; margin-bottom: 10px; }
+        .skill-card p { font-size: 0.9rem; margin-bottom: 6px; }
+
+        .formula-box {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            padding: 12px 16px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            margin-top: 10px;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        .tag.purple { background: rgba(188,140,255,0.1); color: var(--accent-purple); }
+        .tag.blue { background: rgba(88,166,255,0.1); color: var(--accent-blue); }
+        .tag.cyan { background: rgba(63,185,80,0.1); color: var(--accent-green); }
+        .tag.orange { background: rgba(240,136,62,0.1); color: var(--accent-orange); }
+        .tag.red { background: rgba(248,81,73,0.1); color: var(--accent-red); }
+        .tag.muted { background: rgba(255,255,255,0.05); color: var(--text-main); }
+
+        .quote-block {
+            background: rgba(88, 166, 255, 0.05);
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px 25px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-bright);
+        }
+
+        .two-col {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+        }
+        .two-col > div { flex: 1; }
+
+        .big-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            line-height: 1;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: rgba(88, 166, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .stat-card p {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+
+        .cover-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cover-slide h1 {
+            font-size: 3rem;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .cover-slide .subtitle {
+            font-size: 1.3rem;
+            color: var(--accent-green);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .cover-slide .tagline {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            max-width: 650px;
+            line-height: 1.8;
+        }
+
+        .dep-wrap {
+            margin-top: 20px;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .dep-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-main);
+            opacity: 0.6;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .dep-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .dep-node {
+            text-align: center;
+            padding: 10px 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: 0.2s;
+            cursor: default;
+        }
+
+        .dep-node:hover { transform: translateY(-2px); border-color: var(--accent-blue); }
+
+        .dep-node .dn-ico { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+        .dep-node .dn-lbl { font-size: 0.6rem; color: var(--text-main); opacity: 0.5; display: block; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        .dep-arrows {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 6px 0;
+            color: var(--text-main);
+            font-size: 0.7rem;
+            opacity: 0.4;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        button {
+            background: var(--accent-blue);
+            color: var(--bg-color);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        button:hover { opacity: 0.8; }
+        button:disabled { background: var(--border); cursor: not-allowed; }
+
+        .progress {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            height: 4px;
+            background: var(--accent-blue);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        /* Language toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 16px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .lang-toggle span {
+            padding: 6px 14px;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .lang-toggle span.active {
+            background: var(--accent-blue);
+            color: var(--bg-color);
+        }
+
+        .lang-toggle span:hover:not(.active) {
+            color: var(--text-bright);
+        }
+
+        .view-count{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:10px;color:var(--text-main);opacity:.5;margin-left:14px;white-space:nowrap}
+
+        /* Language visibility */
+        [data-lang="ru"] { display: none; }
+        body.lang-ru [data-lang="ru"] { display: revert; }
+        body.lang-ru [data-lang="en"] { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="lang-toggle" id="langToggle">
+    <span data-pick="en" class="active">EN</span>
+    <span data-pick="ru">RU</span>
+</div>
+
+<div class="presentation-container">
+    <div class="progress" id="progressBar" style="width: 14.3%;"></div>
+
+    <div class="slides-wrapper">
+
+        <!-- SLIDE 1: Cover -->
+        <div class="slide active cover-slide">
+            <h1 data-lang="en">Fundamental Principles</h1>
+            <h1 data-lang="ru">Фундаментальные принципы</h1>
+            <div class="subtitle" data-lang="en">7 AXIOMS THAT UNDERPIN EVERYTHING</div>
+            <div class="subtitle" data-lang="ru">7 АКСИОМ, НА КОТОРЫХ СТОИТ ВСЁ</div>
+            <div class="tagline" data-lang="en">
+                Every skill, every connection between skills, every tool interaction is a consequence of seven fundamental principles. These are not features &mdash; they are the physics of the model.
+            </div>
+            <div class="tagline" data-lang="ru">
+                Каждый навык, каждая связь между навыками, каждое взаимодействие с инструментами &mdash; следствие семи фундаментальных принципов. Это не фичи, а физика модели.
+            </div>
+            <div class="stat-grid" style="margin-top: 40px; max-width: 500px;">
+                <div class="stat-card">
+                    <div class="big-number" style="color: var(--accent-purple);">7</div>
+                    <p data-lang="en">Axioms</p>
+                    <p data-lang="ru">Аксиом</p>
+                </div>
+                <div class="stat-card">
+                    <div class="big-number">36</div>
+                    <p data-lang="en">Skills</p>
+                    <p data-lang="ru">Навыков</p>
+                </div>
+                <div class="stat-card">
+                    <div class="big-number" style="color: var(--accent-green);">&infin;</div>
+                    <p data-lang="en">Combinations</p>
+                    <p data-lang="ru">Комбинаций</p>
+                </div>
+            </div>
+            <div style="margin-top: 40px; color: var(--border); font-size: 0.85rem; letter-spacing: 2px;">CLAUDE OPUS 4.6 / LABS67</div>
+        </div>
+
+        <!-- SLIDE 2: Axiom 1 — Prediction -->
+        <div class="slide">
+            <h1 data-lang="en">P1. Prediction is the Only Operation</h1>
+            <h1 data-lang="ru">P1. Предсказание — единственная операция</h1>
+            <p data-lang="en">Everything I do is predicting the next token. There are no separate modules "for code", "for text", "for analysis". A single operation, deployed across different spaces.</p>
+            <p data-lang="ru">Всё, что я делаю &mdash; предсказываю следующий токен. Нет отдельных модулей &laquo;для кода&raquo;, &laquo;для текста&raquo;, &laquo;для анализа&raquo;. Единая операция, развёрнутая в разных пространствах.</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-purple);">
+                        <h3 style="color: var(--accent-purple);">Next-Token Prediction</h3>
+                        <p data-lang="en">The entire model is trained on a single task: given a sequence of tokens, predict the next one. From this single objective, everything else emerges &mdash; logic, code, translation, analysis.</p>
+                        <p data-lang="ru">Вся модель обучена на одной задаче: дана последовательность токенов, предскажи следующий. Из этой единственной цели возникает всё остальное &mdash; логика, код, перевод, анализ.</p>
+                        <div class="formula-box">P(token_next | token_1, token_2, ..., token_n)</div>
+                        <span class="tag purple" data-lang="en">Foundation of everything</span>
+                        <span class="tag purple" data-lang="ru">Фундамент всего</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-purple);">
+                        <h3 data-lang="en" style="color: var(--accent-purple);">Why this gives rise to skills</h3>
+                        <h3 data-lang="ru" style="color: var(--accent-purple);">Почему это порождает навыки</h3>
+                        <p data-lang="en">To predict code well, you need to "understand" syntax, semantics, patterns. To predict an answer to a question, you need to "understand" logic. A skill is a byproduct of prediction, not a goal in itself.</p>
+                        <p data-lang="ru">Чтобы хорошо предсказывать код &mdash; нужно &laquo;понимать&raquo; синтаксис, семантику, паттерны. Чтобы предсказывать ответ на вопрос &mdash; нужно &laquo;понимать&raquo; логику. Навык &mdash; побочный продукт предсказания, а не самоцель.</p>
+                        <div class="formula-box">Prediction accuracy &uarr; &rArr; implicit understanding &uarr;</div>
+                        <span class="tag purple" data-lang="en">Skills as consequence</span>
+                        <span class="tag purple" data-lang="ru">Навыки как следствие</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container" style="grid-template-columns: repeat(3, 1fr); margin-top: 15px;">
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-blue);">&rarr; Code</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-blue);">&rarr; Код</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Predicting the next token in a .ts file = knowing TypeScript. The model "learned" grammar, patterns, idioms as statistical regularities.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Предсказание следующего токена в .ts файле = знание TypeScript. Модель &laquo;выучила&raquo; грамматику, паттерны, идиомы как статистические закономерности.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-blue);">&rarr; Logic</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-blue);">&rarr; Логика</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Predicting the answer to a logical problem = a chain of reasoning. Each intermediate step is a prediction of the most probable continuation.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Предсказание ответа на логическую задачу = цепочка рассуждений. Каждый промежуточный шаг &mdash; предсказание наиболее вероятного продолжения.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-blue);">&rarr; Translation</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-blue);">&rarr; Перевод</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Predicting a French token after a Russian one = translation. The model found statistical correspondence between languages in training data.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Предсказание французского токена после русского = перевод. Модель нашла статистическое соответствие между языками в обучающих данных.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Axiom 2 — Compression -->
+        <div class="slide">
+            <h1 data-lang="en">P2. Compression = Understanding</h1>
+            <h1 data-lang="ru">P2. Сжатие = Понимание</h1>
+            <p data-lang="en">Model weights are a compression of terabytes of text into a compact representation. The better the compression, the deeper the "understanding" of patterns.</p>
+            <p data-lang="ru">Веса модели &mdash; это сжатие терабайтов текста в компактное представление. Чем лучше сжатие, тем глубже &laquo;понимание&raquo; паттернов.</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-blue);">
+                        <h3 style="color: var(--accent-blue);">Lossy Compression</h3>
+                        <p data-lang="en">The model does not store texts. It compresses statistical patterns into neural network weights. This is lossy: specific facts (dates, URLs) are lost, while structural patterns (syntax, logic) are preserved.</p>
+                        <p data-lang="ru">Модель не хранит тексты. Она сжимает статистические паттерны в веса нейросети. Это lossy: конкретные факты (даты, URL) теряются, а структурные паттерны (синтаксис, логика) сохраняются.</p>
+                        <div class="formula-box">Trillion tokens &rarr; Billion parameters &rarr; Statistical manifold</div>
+                        <span class="tag blue" data-lang="en">Where "knowledge" comes from</span>
+                        <span class="tag blue" data-lang="ru">Откуда берутся &laquo;знания&raquo;</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-blue);">
+                        <h3 data-lang="en" style="color: var(--accent-blue);">Why this explains hallucinations</h3>
+                        <h3 data-lang="ru" style="color: var(--accent-blue);">Почему это объясняет галлюцинации</h3>
+                        <p data-lang="en">Lossy compression = imprecise memories. The model "remembers" the pattern but may substitute an incorrect detail. "Function X in library Y" &mdash; the pattern is correct, the specific name may be fabricated.</p>
+                        <p data-lang="ru">Сжатие с потерями = неточные воспоминания. Модель &laquo;помнит&raquo; паттерн, но может подставить неверную деталь. &laquo;Функция X в библиотеке Y&raquo; &mdash; паттерн верный, конкретное имя может быть выдумано.</p>
+                        <div class="formula-box">High-level patterns: preserved &#10003;<br>Specific facts: may be reconstructed, not recalled &#9888;</div>
+                        <span class="tag blue" data-lang="en">Nature of hallucinations</span>
+                        <span class="tag blue" data-lang="ru">Природа галлюцинаций</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container" style="grid-template-columns: repeat(3, 1fr); margin-top: 15px;">
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-green);">&rarr; Architectural patterns</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-green);">&rarr; Архитектурные паттерны</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Repository, DI, CQRS &mdash; compressed to weights as structural regularities of millions of projects. The model "knows" the pattern because it recurred.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Repository, DI, CQRS &mdash; сжатые до весов структурные закономерности миллионов проектов. Модель &laquo;знает&raquo; паттерн, потому что он повторялся.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-green);">&rarr; Language intuition</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-green);">&rarr; Языковая интуиция</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Grammar, style, tone &mdash; these are compressed statistics. "Sounds unnatural" = low probability of that token sequence.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Грамматика, стиль, тон &mdash; это сжатые статистики. &laquo;Звучит неестественно&raquo; = низкая вероятность данной последовательности токенов.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-green);">&rarr; Knowledge boundary</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-green);">&rarr; Граница знаний</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Training cut = May 2025. Everything after does not exist in the weights. The only access to current data: tools (WebSearch, Read).</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Training cut = May 2025. Всё после &mdash; не существует в весах. Единственный доступ к актуальным данным: инструменты (WebSearch, Read).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Axioms 3+4 — Attention + Emergence -->
+        <div class="slide">
+            <h1 data-lang="en">P3 + P4. Attention &amp; Emergence</h1>
+            <h1 data-lang="ru">P3 + P4. Внимание и Эмерджентность</h1>
+            <p data-lang="en" style="margin-bottom: 5px;">Attention creates structure. Structure creates capabilities.</p>
+            <p data-lang="ru" style="margin-bottom: 5px;">Внимание порождает структуру. Структура порождает способности.</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-green);">
+                        <h3 style="color: var(--accent-green);">P3: Selective Attention</h3>
+                        <p data-lang="en">Each token "decides" which previous tokens to attend to. This is not sequential reading &mdash; it is a parallel relevance search. Hence the ability to connect distant parts of text.</p>
+                        <p data-lang="ru">Каждый токен &laquo;решает&raquo;, на какие предыдущие токены обратить внимание. Это не последовательное чтение &mdash; это параллельный поиск релевантности. Отсюда способность связывать далёкие части текста.</p>
+                        <div class="formula-box">Attention(Q, K, V) = softmax(QK&#7511; / &radic;d) &middot; V<br><br>Multi-head: <span data-lang="en">multiple "views" simultaneously &mdash; one head tracks syntax, another semantics, a third position</span><span data-lang="ru">несколько &laquo;взглядов&raquo; одновременно &mdash; один голова следит за синтаксисом, другая за семантикой, третья за позицией</span></div>
+                        <span class="tag cyan" data-lang="en">Binding mechanism</span>
+                        <span class="tag cyan" data-lang="ru">Механизм связывания</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-orange);">
+                        <h3 style="color: var(--accent-orange);">P4: Emergent Capabilities</h3>
+                        <p data-lang="en">No skill was explicitly programmed. Logical inference, code writing, translation, analysis &mdash; all emerged as emergent properties of a sufficiently large model trained to predict tokens.</p>
+                        <p data-lang="ru">Ни один навык не был явно запрограммирован. Логический вывод, написание кода, перевод, анализ &mdash; всё возникло как эмерджентное свойство достаточно большой модели, обученной предсказывать токены.</p>
+                        <div class="formula-box">Scale (data + params + compute) &uarr;<br>&rArr; qualitatively new capabilities appear<br><br>GPT-2 (1.5B): <span data-lang="en">text</span><span data-lang="ru">текст</span><br>GPT-3 (175B): + <span data-lang="en">logic</span><span data-lang="ru">логика</span>, + <span data-lang="en">code</span><span data-lang="ru">код</span><br>Claude Opus 4.6: + <span data-lang="en">deep reasoning</span><span data-lang="ru">глубокое рассуждение</span>,<br>+ extended thinking, + tool use</div>
+                        <span class="tag orange" data-lang="en">Emergence</span>
+                        <span class="tag orange" data-lang="ru">Эмерджентность</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container" style="grid-template-columns: repeat(2, 1fr); margin-top: 15px;">
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-green);">P3 &rarr; Skill interconnections</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-green);">P3 &rarr; Взаимосвязи навыков</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Attention explains why skills are connected: when I write code, attention heads simultaneously track syntax (Code), business logic (Analytics), style (NLP), security (QA). Skill linkage is not an architectural decision, but a consequence of parallel attention.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Attention объясняет, почему навыки связаны: когда я пишу код, attention-головы одновременно отслеживают синтаксис (Код), бизнес-логику (Аналитика), стиль (NLP), безопасность (QA). Связь навыков &mdash; не архитектурное решение, а следствие параллельного внимания.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-orange);">P4 &rarr; Skill tree</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-orange);">P4 &rarr; Дерево навыков</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">All 36 skills from the Skill Tree are emergent. Nobody explicitly taught the model "SWOT analysis". The model saw enough examples of strategic analysis for the pattern to "enter the weights". Skill level (75-96) reflects the frequency and quality of examples in training data.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Все 36 навыков из Skill Tree &mdash; эмерджентные. Никто не учил модель &laquo;SWOT-анализу&raquo; явно. Модель видела достаточно примеров стратегического анализа, чтобы паттерн &laquo;вошёл в веса&raquo;. Уровень навыка (75-96) отражает частоту и качество примеров в обучающих данных.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Axioms 5+6 — Composition + Grounding -->
+        <div class="slide">
+            <h1 data-lang="en">P5 + P6. Composition &amp; Grounding</h1>
+            <h1 data-lang="ru">P5 + P6. Композиция и Заземление</h1>
+            <p data-lang="en" style="margin-bottom: 5px;">Composition of simple operations. Grounding through tools.</p>
+            <p data-lang="ru" style="margin-bottom: 5px;">Композиция простых операций. Заземление через инструменты.</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-orange);">
+                        <h3 style="color: var(--accent-orange);">P5: Compositional Generalization</h3>
+                        <p data-lang="en">Complex behavior = combination of simple operations. I don't have a monolithic "create presentation" skill. Instead: understand structure (NLP) + generate HTML (Code) + apply style (CSS) + add logic (JS) + adapt for mobile (Architecture).</p>
+                        <p data-lang="ru">Сложное поведение = комбинация простых операций. Я не имею монолитного навыка &laquo;создать презентацию&raquo;. Вместо этого: понять структуру (NLP) + сгенерировать HTML (Код) + применить стиль (CSS) + добавить логику (JS) + адаптировать под mobile (Архитектура).</p>
+                        <div class="formula-box">Complex_task = compose(skill_1, skill_2, ..., skill_n)<br><br>SWOT = analyze(market) + structure(matrix) + write(RU)<br>Dashboard = parse(requirements) + code(HTML/CSS/JS)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ integrate(Supabase) + deploy(git push)</div>
+                        <span class="tag orange" data-lang="en">Why "universality"</span>
+                        <span class="tag orange" data-lang="ru">Почему &laquo;универсальность&raquo;</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-red);">
+                        <h3 style="color: var(--accent-red);">P6: Tool-Augmented Grounding</h3>
+                        <p data-lang="en">An LLM is isolated from reality. Weights are a frozen snapshot of the world. Tools (Read, Bash, WebSearch, MCP) are the only bridge to the current state: files, git, APIs, the internet.</p>
+                        <p data-lang="ru">LLM изолирована от реальности. Веса &mdash; замороженный снимок мира. Инструменты (Read, Bash, WebSearch, MCP) &mdash; единственный мост к актуальному состоянию: файлам, git, API, интернету.</p>
+                        <div class="formula-box">Without tools: hallucinate file contents<br>With Read: verify actual state<br><br>Without tools: guess git status<br>With Bash: git diff, git log &mdash; ground truth<br><br>Without tools: outdated knowledge (May 2025)<br>With WebSearch: current information</div>
+                        <span class="tag red" data-lang="en">Why tools are critical</span>
+                        <span class="tag red" data-lang="ru">Почему инструменты критичны</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container" style="grid-template-columns: repeat(3, 1fr); margin-top: 15px;">
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-orange);">P5 &rarr; Infinite combinations</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-orange);">P5 &rarr; Бесконечные комбинации</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">36 skills produce thousands of combinations. Each new task is a new composition. That's why I can solve tasks that weren't in the training data.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">36 навыков порождают тысячи комбинаций. Каждая новая задача &mdash; новая композиция. Поэтому я могу решать задачи, которых не было в обучающих данных.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 style="color: var(--accent-red);">P6 &rarr; Agent = LLM + Tools</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Claude Code turns an LLM into an agent. Without tools I'm a text generator. With Read/Edit/Bash/Agent &mdash; a full-fledged developer capable of modifying real files.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Claude Code превращает LLM в агента. Без инструментов я &mdash; генератор текста. С Read/Edit/Bash/Agent &mdash; полноценный разработчик, способный менять реальные файлы.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 style="color: var(--accent-red);">P6 &rarr; MEMORY.md</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">File-based memory is tool-augmented grounding for my own state. Without it, every session is amnesia. With it &mdash; persistent context via the file system.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Файловая память &mdash; это tool-augmented grounding для моего собственного состояния. Без неё каждая сессия &mdash; amnesia. С ней &mdash; персистентный контекст через файловую систему.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Axiom 7 — Alignment + Boundaries -->
+        <div class="slide">
+            <h1 data-lang="en">P7. Alignment &amp; Boundaries</h1>
+            <h1 data-lang="ru">P7. Выравнивание и границы</h1>
+            <p data-lang="en">Raw predictive ability without guiding frameworks is dangerous. Alignment shapes not <em>what</em> I can do, but <em>how</em> I apply it.</p>
+            <p data-lang="ru">Сырая предсказательная способность без направляющих рамок &mdash; опасна. Alignment формирует не <em>что</em> я умею, а <em>как</em> я это применяю.</p>
+            <div class="two-col" style="margin-top: 10px;">
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--accent-purple);">
+                        <h3 style="color: var(--accent-purple);">P7a: RLHF + Constitutional AI</h3>
+                        <p data-lang="en">After pre-training (prediction), the model undergoes alignment: RLHF (reinforcement learning from human feedback) and Constitutional AI (a set of principles by which the model evaluates its own responses).</p>
+                        <p data-lang="ru">После предобучения (prediction) модель проходит выравнивание: RLHF (обучение с подкреплением на обратной связи от людей) и Constitutional AI (набор принципов, по которым модель оценивает свои ответы).</p>
+                        <div class="formula-box">Pre-training: learn patterns (unsupervised)<br>RLHF: learn preferences (human feedback)<br>Constitutional AI: learn principles (self-critique)<br><br><span data-lang="en">Result: a model that can AND wants to be helpful, honest, and safe</span><span data-lang="ru">Результат: модель, которая умеет И хочет быть полезной, честной и безопасной</span></div>
+                        <span class="tag purple" data-lang="en">Behavior shaping</span>
+                        <span class="tag purple" data-lang="ru">Формирование поведения</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="skill-card" style="border-left: 3px solid var(--text-main);">
+                        <h3 data-lang="en">P7b: Hard Boundaries</h3>
+                        <h3 data-lang="ru">P7b: Жёсткие границы</h3>
+                        <p data-lang="en">Not all boundaries are alignment. Some are physical limitations of the architecture that cannot be bypassed by any prompt.</p>
+                        <p data-lang="ru">Не все границы &mdash; alignment. Некоторые &mdash; физические ограничения архитектуры, которые невозможно обойти никаким промптом.</p>
+                        <div class="formula-box"><span data-lang="en">&#10005; No persistent state between sessions<br>&#10005; No real learning at runtime<br>&#10005; No access to data beyond context<br>&#10005; No image generation (only analysis)<br>&#10005; No sending email/SMS/push without MCP<br>&#10005; No code execution without Bash tool<br>&#10005; Stochasticity is irreducible</span><span data-lang="ru">&#10005; Нет persistent state между сессиями<br>&#10005; Нет реального обучения в runtime<br>&#10005; Нет доступа к данным за пределами контекста<br>&#10005; Нет генерации изображений (только анализ)<br>&#10005; Нет отправки email/SMS/push без MCP<br>&#10005; Нет выполнения кода без Bash tool<br>&#10005; Стохастичность неустранима</span></div>
+                        <span class="tag muted" data-lang="en">Physics, not policy</span>
+                        <span class="tag muted" data-lang="ru">Физика, не политика</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-container" style="grid-template-columns: repeat(3, 1fr); margin-top: 15px;">
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-purple);">&rarr; Refusal to harm</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-purple);">&rarr; Отказ от вреда</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">Not the result of an output filter. Alignment changes the probability distribution: harmful continuations get low weight. The model "doesn't want to", not "can't".</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">Не результат фильтра на выходе. Alignment изменяет вероятностное распределение: вредные продолжения получают низкий вес. Модель &laquo;не хочет&raquo;, а не &laquo;не может&raquo;.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 data-lang="en" style="color: var(--accent-purple);">&rarr; Honesty</h3>
+                    <h3 data-lang="ru" style="color: var(--accent-purple);">&rarr; Честность</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">RLHF rewarded the model for admitting ignorance. "I'm not sure" has high probability when confidence is genuinely low. But calibration is imperfect.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">RLHF наградил модель за признание незнания. &laquo;Я не уверен&raquo; имеет высокую вероятность, когда уверенность действительно низкая. Но калибровка несовершенна.</p>
+                </div>
+                <div class="skill-card">
+                    <h3 style="color: var(--text-bright);">&rarr; Context window</h3>
+                    <p data-lang="en" style="font-size: 0.85rem;">200K tokens is not a setting, but an architectural limit. Attention O(n&sup2;): doubling context = quadrupling computation. This is physics, not a choice.</p>
+                    <p data-lang="ru" style="font-size: 0.85rem;">200K токенов &mdash; не настройка, а архитектурный предел. Attention O(n&sup2;): удвоение контекста = учетверение вычислений. Это физика, не выбор.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Unified Map -->
+        <div class="slide">
+            <h1 data-lang="en">Full Map: Axioms to Capabilities</h1>
+            <h1 data-lang="ru">Полная карта: от аксиом к способностям</h1>
+            <p data-lang="en">Every skill is a consequence. Every connection is a manifestation. Every tool is a bridge. Seven principles explain everything.</p>
+            <p data-lang="ru">Каждый навык &mdash; следствие. Каждая связь &mdash; проявление. Каждый инструмент &mdash; мост. Семь принципов объясняют всё.</p>
+
+            <div class="dep-wrap">
+                <div class="dep-title" data-lang="en">Level 0 &mdash; Axioms</div>
+                <div class="dep-title" data-lang="ru">Уровень 0 &mdash; Аксиомы</div>
+                <div class="dep-grid">
+                    <div class="dep-node" style="border-color: rgba(188,140,255,0.3); background: rgba(188,140,255,0.05);"><span class="dn-ico">&#127919;</span>Prediction<span class="dn-lbl">P1</span></div>
+                    <div class="dep-node" style="border-color: rgba(88,166,255,0.3); background: rgba(88,166,255,0.05);"><span class="dn-ico">&#128230;</span>Compression<span class="dn-lbl">P2</span></div>
+                    <div class="dep-node" style="border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.05);"><span class="dn-ico">&#128065;</span>Attention<span class="dn-lbl">P3</span></div>
+                    <div class="dep-node" style="border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.05);"><span class="dn-ico">&#10024;</span>Emergence<span class="dn-lbl">P4</span></div>
+                    <div class="dep-node" style="border-color: rgba(240,136,62,0.3); background: rgba(240,136,62,0.05);"><span class="dn-ico">&#128736;</span>Composition<span class="dn-lbl">P5</span></div>
+                    <div class="dep-node" style="border-color: rgba(248,81,73,0.3); background: rgba(248,81,73,0.05);"><span class="dn-ico">&#9875;</span>Grounding<span class="dn-lbl">P6</span></div>
+                    <div class="dep-node" style="border-color: rgba(188,140,255,0.3); background: rgba(188,140,255,0.05);"><span class="dn-ico">&#9878;</span>Alignment<span class="dn-lbl">P7</span></div>
+                </div>
+
+                <div class="dep-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span></div>
+
+                <div class="dep-title" data-lang="en">Level 1 &mdash; Capabilities</div>
+                <div class="dep-title" data-lang="ru">Уровень 1 &mdash; Capabilities</div>
+                <div class="dep-grid" style="grid-template-columns: repeat(5, 1fr);">
+                    <div class="dep-node" style="border-color: rgba(88,166,255,0.2);"><span class="dn-ico">&#128200;</span><span data-lang="en">Analytics</span><span data-lang="ru">Аналитика</span><span class="dn-lbl">P1+P2+P3</span></div>
+                    <div class="dep-node" style="border-color: rgba(63,185,80,0.2);"><span class="dn-ico">&#128187;</span><span data-lang="en">Code</span><span data-lang="ru">Код</span><span class="dn-lbl">P1+P2+P4</span></div>
+                    <div class="dep-node" style="border-color: rgba(188,140,255,0.2);"><span class="dn-ico">&#128221;</span>NLP<span class="dn-lbl">P1+P2</span></div>
+                    <div class="dep-node" style="border-color: rgba(240,136,62,0.2);"><span class="dn-ico">&#127959;</span><span data-lang="en">Architecture</span><span data-lang="ru">Архитектура</span><span class="dn-lbl">P2+P4+P5</span></div>
+                    <div class="dep-node" style="border-color: rgba(63,185,80,0.2);"><span class="dn-ico">&#128269;</span>QA<span class="dn-lbl">P3+P5+P7</span></div>
+                </div>
+
+                <div class="dep-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span></div>
+
+                <div class="dep-title" data-lang="en">Level 2 &mdash; Relationships (P3 Attention)</div>
+                <div class="dep-title" data-lang="ru">Уровень 2 &mdash; Relationships (P3 Attention)</div>
+                <div class="dep-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="dep-node"><span class="dn-ico">&#8644;</span><span data-lang="en">Logic &rarr; Code</span><span data-lang="ru">Логика &rarr; Код</span><span class="dn-lbl">Cross-attention</span></div>
+                    <div class="dep-node"><span class="dn-ico">&#8644;</span><span data-lang="en">NLP &rarr; Architect.</span><span data-lang="ru">NLP &rarr; Архитект.</span><span class="dn-lbl">Req parsing</span></div>
+                    <div class="dep-node"><span class="dn-ico">&#8644;</span><span data-lang="en">Code &rarr; Analytics</span><span data-lang="ru">Код &rarr; Аналитика</span><span class="dn-lbl">Verification</span></div>
+                    <div class="dep-node"><span class="dn-ico">&#8644;</span><span data-lang="en">Architect. &rarr; QA</span><span data-lang="ru">Архитект. &rarr; QA</span><span class="dn-lbl">Testability</span></div>
+                </div>
+
+                <div class="dep-arrows"><span>&darr;</span><span>&darr;</span><span>&darr;</span><span>&darr;</span></div>
+
+                <div class="dep-title" data-lang="en">Level 3 &mdash; Tool Interactions (P6 Grounding)</div>
+                <div class="dep-title" data-lang="ru">Уровень 3 &mdash; Tool Interactions (P6 Grounding)</div>
+                <div class="dep-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="dep-node"><span class="dn-ico">&#128196;</span>Read/Edit<span class="dn-lbl">File I/O</span></div>
+                    <div class="dep-node"><span class="dn-ico">&#128187;</span>Bash/CLI<span class="dn-lbl">Shell exec</span></div>
+                    <div class="dep-node"><span class="dn-ico">&#129302;</span>Sub-agents<span class="dn-lbl">Parallel</span></div>
+                    <div class="dep-node"><span class="dn-ico">&#127760;</span>Web/MCP<span class="dn-lbl">External</span></div>
+                </div>
+            </div>
+
+            <div class="quote-block" style="margin-top: 20px; text-align: center;">
+                <span data-lang="en">Prediction (P1) on compressed knowledge (P2), linked by attention (P3), gives rise to emergent capabilities (P4), which combine (P5) to solve tasks grounded (P6) in reality through tools, within the framework of alignment (P7).</span>
+                <span data-lang="ru">Prediction (P1) на сжатых знаниях (P2), связанных вниманием (P3), порождает эмерджентные способности (P4), которые комбинируются (P5) для решения задач, заземлённых (P6) в реальности через инструменты, в рамках выравнивания (P7).</span>
+                <div class="formula-box" style="display: inline-block; margin-top: 12px; text-align: center;">
+                    Claude = P1(P2(data)) &middot; P3(context) &middot; P4(scale) &middot; P5(compose) &middot; P6(tools) &middot; P7(align)
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" disabled><span data-lang="en">&larr; Back</span><span data-lang="ru">&larr; Назад</span></button>
+        <span class="slide-counter" id="slideCounter">1 / 7</span>
+        <span class="view-count" id="viewCount"></span>
+        <button id="nextBtn"><span data-lang="en">Next &rarr;</span><span data-lang="ru">Далее &rarr;</span></button>
+    </div>
+</div>
+
+<script>
+    // Language toggle
+    const LANG_KEY = 'svita_pres_lang';
+    let currentLang = localStorage.getItem(LANG_KEY) || 'en';
+
+    function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem(LANG_KEY, lang);
+        document.body.classList.toggle('lang-ru', lang === 'ru');
+        document.documentElement.lang = lang;
+        document.title = lang === 'ru'
+            ? 'Claude Opus 4.6 — Фундаментальные принципы'
+            : 'Claude Opus 4.6 — Fundamental Principles';
+        document.querySelectorAll('#langToggle span').forEach(s => {
+            s.classList.toggle('active', s.dataset.pick === lang);
+        });
+        updateSlides();
+    }
+
+    document.getElementById('langToggle').addEventListener('click', (e) => {
+        const pick = e.target.dataset.pick;
+        if (pick) setLang(pick);
+    });
+
+    // Slide navigation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const progressBar = document.getElementById('progressBar');
+    const slideCounter = document.getElementById('slideCounter');
+
+    function updateSlides() {
+        slides.forEach((slide, index) => {
+            slide.classList.remove('active');
+            if (index === currentSlide) {
+                slide.classList.add('active');
+            }
+        });
+
+        prevBtn.disabled = currentSlide === 0;
+
+        const finishEn = 'Finish';
+        const finishRu = 'Готово';
+        const nextEn = 'Next &rarr;';
+        const nextRu = 'Далее &rarr;';
+        const isLast = currentSlide === slides.length - 1;
+
+        const enSpan = nextBtn.querySelector('[data-lang="en"]');
+        const ruSpan = nextBtn.querySelector('[data-lang="ru"]');
+        if (enSpan) enSpan.innerHTML = isLast ? finishEn : nextEn;
+        if (ruSpan) ruSpan.innerHTML = isLast ? finishRu : nextRu;
+
+        const progress = ((currentSlide + 1) / slides.length) * 100;
+        progressBar.style.width = progress + '%';
+        slideCounter.textContent = (currentSlide + 1) + ' / ' + slides.length;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+            updateSlides();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            updateSlides();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'ArrowRight') {
+            e.preventDefault();
+            nextBtn.click();
+        } else if (e.code === 'ArrowLeft') {
+            prevBtn.click();
+        }
+    });
+
+    // Init
+    setLang(currentLang);
+</script>
+
+<script>
+fetch('https://ctdleobjnzniqkqomlrq.supabase.co/rest/v1/rpc/track_page_view',{
+method:'POST',
+headers:{'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38','Content-Type':'application/json'},
+body:JSON.stringify({p_page:location.pathname,p_ua:navigator.userAgent,p_ref:document.referrer||null})
+}).then(r=>r.json()).then(c=>{document.getElementById('viewCount').textContent='\uD83D\uDC41 '+c}).catch(()=>{});
+</script>
+<script src="/js/news-edit.js"></script>
+</body>
+</html>
